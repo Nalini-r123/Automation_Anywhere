@@ -1,6 +1,6 @@
 # Automation_Anywhere
 
-### 1. Tech Stack
+## 1. Tech Stack
 
 * Playwright
 * Node.js
