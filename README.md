@@ -12,7 +12,7 @@
 * Clone repository:
 
 ```bash
-git clone https://github.com/Nalini-r123/Automation-Assignment.git
+git clone https://github.com/Nalini-r123/Automation_Anywhere.git
 ```
 
 * Install dependencies:
