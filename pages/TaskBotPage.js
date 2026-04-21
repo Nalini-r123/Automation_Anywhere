@@ -1,4 +1,4 @@
-class TaskBotPage {
+/*class TaskBotPage {
   constructor(page) {
     this.page = page;
   }
@@ -36,6 +36,56 @@ class TaskBotPage {
   async saveTask() {
     await this.page.waitForSelector('button[name="save"]');
     await this.page.click('button[name="save"]');
+  }
+}
+
+module.exports = TaskBotPage;*/
+const { expect } = require('@playwright/test');
+
+class TaskBotPage {
+  constructor(page) {
+    this.page = page;
+
+    this.taskNameInput = page.locator('input[name="name"]');
+    this.createButton = page.locator('button[name="submit"]');
+    this.searchBox = page.locator('input[placeholder*="Search actions"]');
+
+    this.quickAddBtn = page.locator('button[name="taskbot-node-quick-add"]');
+    this.searchAction = page.locator('input[name="quick-add-search"]');
+    this.messageBox = page.locator('div[aria-label="Message box"]');
+
+    this.editor = page.locator('div[name="content"]');
+    this.saveButton = page.locator('button[name="save"]');
+  }
+
+  async createTask(name) {
+    await this.taskNameInput.fill(name);
+    await expect(this.taskNameInput).toHaveValue(name);
+
+    await this.createButton.click();
+
+    // wait for editor screen
+    await this.searchBox.waitFor({ timeout: 90000 });
+  }
+
+  async addMessageBox(message) {
+    await this.quickAddBtn.waitFor({ timeout: 60000 });
+    await this.quickAddBtn.click();
+
+    await this.searchAction.fill('Message Box');
+
+    await this.messageBox.first().waitFor({ state: 'visible', timeout: 60000 });
+    await this.messageBox.first().click();
+
+    await this.editor.waitFor({ state: 'visible' });
+    await this.editor.fill(message);
+
+    await expect(this.editor).toContainText(message);
+  }
+
+  async saveTask() {
+    await this.saveButton.waitFor({ timeout: 60000 });
+    await this.saveButton.click();
   }
 }
 

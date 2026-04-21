@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+/*const { test, expect } = require('@playwright/test');
 const LoginPage = require('../../pages/LoginPage');
 const DashboardPage = require('../../pages/DashBoard');
 const TaskBotPage = require('../../pages/TaskBotPage');
@@ -48,4 +48,29 @@ test('Create Message Box Task', async ({ page }) => {
     // Save
     await task.saveTask();
 
+});*/
+const { test } = require('@playwright/test');
+const LoginPage = require('../../pages/LoginPage');
+const DashboardPage = require('../../pages/DashBoard');
+const TaskBotPage = require('../../pages/TaskBotPage');
+
+test('Create Message Box Task', async ({ page }) => {
+
+    const login = new LoginPage(page);
+    const dashboard = new DashboardPage(page);
+    const task = new TaskBotPage(page);
+
+    await page.goto('https://community.cloud.automationanywhere.digital');
+
+    await login.login(process.env.EMAIL, process.env.PASSWORD);
+
+    await dashboard.navigateToAutomation();
+
+    await dashboard.createTaskBot();
+
+    await task.createTask('My First Task');
+
+    await task.addMessageBox('Hello from automation');
+
+    await task.saveTask();
 });
